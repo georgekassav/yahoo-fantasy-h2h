@@ -3,13 +3,16 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const yahooAuthUrl = "https://api.login.yahoo.com/oauth2/request_auth";
 
+  const clientId = process.env.YAHOO_CLIENT_ID;
+  const redirectUri = process.env.YAHOO_REDIRECT_URI;
+
+  if (!clientId || !redirectUri) {
+    throw new Error("Missing environment variables for Yahoo OAuth");
+  }
+
   const params = new URLSearchParams({
-    client_id:
-      process.env.YAHOO_CLIENT_ID ||
-      "dj0yJmk9T01xaVp2Uk5lc09uJmQ9WVdrOU1uRmFSemd6UjNNbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWQ4",
-    redirect_uri:
-      process.env.YAHOO_REDIRECT_URI ||
-      "localhost:3000/api/auth/yahoo/callback",
+    client_id: clientId,
+    redirect_uri: redirectUri,
     response_type: "code", // Required
     scope: "fspt-r", // Modify scope as per Yahoo API documentation
   });

@@ -15,11 +15,9 @@ export async function GET(req: NextRequest) {
     const params = new URLSearchParams({
       client_id: process.env.YAHOO_CLIENT_ID || "",
       client_secret: process.env.YAHOO_CLIENT_SECRET || "",
-      redirect_uri:
-        process.env.YAHOO_REDIRECT_URI ||
-        "http://localhost:3000/api/auth/yahoo/callback",
+      redirect_uri: process.env.YAHOO_REDIRECT_URI || "",
       grant_type: "authorization_code",
-      code,
+      code: code || "",
     });
 
     const authHeader = `Basic ${Buffer.from(
