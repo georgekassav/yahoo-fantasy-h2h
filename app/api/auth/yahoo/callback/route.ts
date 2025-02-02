@@ -31,7 +31,20 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(data);
+    const response = NextResponse.json(data);
+
+    response.cookies.set("yahoo_access_token", data.access_token, {
+      httpOnly: true,
+      secure: true,
+      maxAge: data.expires_in,
+    });
+
+    response.cookies.set("yahoo_refresh_token", data.refresh_token, {
+      httpOnly: true,
+      secure: true,
+    });
+
+    return response;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error(error.response?.data || error.message);
